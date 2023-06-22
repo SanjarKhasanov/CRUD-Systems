@@ -12,3 +12,11 @@ export function saveSubject(name: string) {
       }
    })
 }
+
+export function findSubjectById(id: number) {
+   return prisma.subject.findUnique({
+      where: {
+         id
+      }
+   })
+}

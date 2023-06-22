@@ -21,11 +21,11 @@ model Student {
 }
 
 model StudentSubject {
-  id        Int      @id @default(autoincrement())
-  student   Student? @relation(fields: [studentId], references: [id])
-  subject   Subject? @relation(fields: [subjectId], references: [id])
-  studentId Int?
-  subjectId Int?
+  id        Int     @id @default(autoincrement())
+  student   Student @relation(fields: [studentId], references: [id])
+  subject   Subject @relation(fields: [subjectId], references: [id])
+  studentId Int
+  subjectId Int
 }
 
 model Subject {

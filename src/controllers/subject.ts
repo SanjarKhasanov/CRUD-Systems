@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { findAllSubjects, saveSubject } from "../services/subject.service";
+import { findAllSubjects, findSubjectById, saveSubject } from "../services/subject.service";
 
 export async function getAllSubjects(req: Request, res: Response, next: NextFunction) {
    try {
@@ -23,4 +23,12 @@ export async function createSubject(req: Request, res: Response, next: NextFunct
    } catch (error) {
       next(error);
    }
+}
+
+export async function getSubjectById(req: Request, res: Response, next: NextFunction) {
+   const id = +req.params.id;
+   const subject = await findSubjectById(id);
+   res.status(200).json({
+      subject
+   })
 }
