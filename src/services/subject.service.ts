@@ -20,3 +20,11 @@ export function findSubjectById(id: number) {
       }
    })
 }
+
+export function findSubjectByName(name: string) {
+   return prisma.subject.findUnique({
+      where: {
+         name
+      }
+   })
+}
