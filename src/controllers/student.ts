@@ -21,7 +21,7 @@ export async function getStudentById(req: Request, res: Response, next: NextFunc
       const id: number = +req.params.id;
       const student = await findStudentById(id);
       const subjects = await findStudentSubjectsById(id);
-      
+
       res.status(200).json({
          student: {
             id: student?.id,
@@ -33,15 +33,6 @@ export async function getStudentById(req: Request, res: Response, next: NextFunc
             subjects: subjects.map(data => data.subject)
          }
       })
-   } catch (error) {
-      next(error);
-   }
-}
-
-//get all subjects by student id
-export async function getAllSubjectsStudents(req: Request, res: Response, next: NextFunction) {
-   try {
-
    } catch (error) {
       next(error);
    }
@@ -70,10 +61,24 @@ export async function combineSubjectToStudent(req: Request, res: Response, next:
       const studentId = Number(req.params.id);
       const subjectId = Number(req.body.subjectId);
 
-      await addSubjectToStudent(Number(studentId), Number(subjectId));
-      await addSubjectToStudent(1, 3);
+      const subjects = await findStudentSubjectsById(studentId);
       const student = await findStudentById(+studentId);
       const subject = await findSubjectById(+subjectId);
+      let count = 0;
+      subjects.forEach(data => {
+         if (data.subject.name == subject?.name) {
+            count++;
+         }
+      })
+      if (count > 0) {
+         res.status(201).json({
+            error: `${student?.name}ga '${subject?.name}' fani allaqchon biriktirilgan.`
+         })
+         return
+      }
+
+      await addSubjectToStudent(Number(studentId), Number(subjectId));
+
       res.status(201).json({
          msg: `${student?.name}ga ${subject?.name} fani biriktirildi.`
       })
